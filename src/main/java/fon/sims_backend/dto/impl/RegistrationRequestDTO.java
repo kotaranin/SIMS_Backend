@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
  */
 public class RegistrationRequestDTO implements DTO {
 
-    private Long idStudentOfficer;
+    private Long idRegistrationRequest;
     @NotNull(message = "Ime je obavezno polje!")
     @NotEmpty(message = "Ime je obavezno polje!")
     private String firstName;
@@ -47,8 +47,8 @@ public class RegistrationRequestDTO implements DTO {
     public RegistrationRequestDTO() {
     }
 
-    public RegistrationRequestDTO(Long idStudentOfficer, String firstName, String lastName, String email, String passwordSalt, String hashedPassword, String question, String answerSalt, String hashedAnswer, Boolean admin, StudyLevelDTO studyLevel) {
-        this.idStudentOfficer = idStudentOfficer;
+    public RegistrationRequestDTO(Long idRegistrationRequest, String firstName, String lastName, String email, String passwordSalt, String hashedPassword, String question, String answerSalt, String hashedAnswer, Boolean admin, StudyLevelDTO studyLevel) {
+        this.idRegistrationRequest = idRegistrationRequest;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -61,12 +61,12 @@ public class RegistrationRequestDTO implements DTO {
         this.studyLevel = studyLevel;
     }
 
-    public Long getIdStudentOfficer() {
-        return idStudentOfficer;
+    public Long getIdRegistrationRequest() {
+        return idRegistrationRequest;
     }
 
-    public void setIdStudentOfficer(Long idStudentOfficer) {
-        this.idStudentOfficer = idStudentOfficer;
+    public void setIdRegistrationRequest(Long idRegistrationRequest) {
+        this.idRegistrationRequest = idRegistrationRequest;
     }
 
     public String getFirstName() {
