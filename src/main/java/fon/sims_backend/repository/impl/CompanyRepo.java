@@ -9,11 +9,13 @@ import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author kotar
  */
+@Repository
 public class CompanyRepo implements MyRepository<Company, Long> {
 
     @PersistenceContext
