@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.ModuleDTO;
 import fon.sims_backend.entity.impl.Module;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class ModuleMapper implements DTOEntityMapper<ModuleDTO, fon.sims_backend.entity.impl.Module> {
 
     @Override

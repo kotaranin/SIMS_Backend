@@ -10,11 +10,13 @@ import fon.sims_backend.entity.impl.City;
 import fon.sims_backend.entity.impl.Country;
 import fon.sims_backend.mapper.DTOEntityMapper;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class CountryMapper implements DTOEntityMapper<CountryDTO, Country> {
 
     @Override

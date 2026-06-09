@@ -8,11 +8,13 @@ import fon.sims_backend.dto.impl.ModuleDTO;
 import fon.sims_backend.dto.impl.StudyProgramDTO;
 import fon.sims_backend.entity.impl.StudyProgram;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class StudyProgramMapper implements DTOEntityMapper<StudyProgramDTO, StudyProgram> {
 
     @Override

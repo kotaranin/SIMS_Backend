@@ -8,6 +8,7 @@ import fon.sims_backend.entity.impl.Report;
 import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +36,7 @@ public class ReportRepo implements MyRepository<Report, Long>{
     }
 
     @Override
+    @Transactional
     public void save(Report entity) {
         if (entity.getIdReport() == null) {
             entityManager.persist(entity);

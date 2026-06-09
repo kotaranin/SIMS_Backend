@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.CityDTO;
 import fon.sims_backend.entity.impl.City;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class CityMapper implements DTOEntityMapper<CityDTO, City> {
 
     @Override

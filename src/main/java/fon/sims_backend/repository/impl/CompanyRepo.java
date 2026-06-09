@@ -8,6 +8,7 @@ import fon.sims_backend.entity.impl.Company;
 import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,7 @@ public class CompanyRepo implements MyRepository<Company, Long> {
     }
 
     @Override
+    @Transactional
     public void save(Company entity) {
         if (entity.getIdCompany() == null) {
             entityManager.persist(entity);

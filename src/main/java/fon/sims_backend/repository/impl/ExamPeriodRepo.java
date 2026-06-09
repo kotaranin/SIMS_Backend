@@ -8,6 +8,7 @@ import fon.sims_backend.entity.impl.ExamPeriod;
 import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,7 @@ public class ExamPeriodRepo implements MyRepository<ExamPeriod, Long> {
     }
 
     @Override
+    @Transactional
     public void save(ExamPeriod entity) {
         if (entity.getIdExamPeriod() == null) {
             entityManager.persist(entity);

@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.ExamPeriodDTO;
 import fon.sims_backend.entity.impl.ExamPeriod;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class ExamPeriodMapper implements DTOEntityMapper<ExamPeriodDTO, ExamPeriod> {
 
     @Override

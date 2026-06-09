@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.StudentOfficerDTO;
 import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class StudentOfficerMapper implements DTOEntityMapper<StudentOfficerDTO, StudentOfficer> {
 
     @Override

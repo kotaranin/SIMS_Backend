@@ -8,6 +8,7 @@ import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,7 @@ public class StudentOfficerRepo implements MyRepository<StudentOfficer, Long> {
     }
 
     @Override
+    @Transactional
     public void save(StudentOfficer entity) {
         if (entity.getIdStudentOfficer() == null) {
             entityManager.persist(entity);

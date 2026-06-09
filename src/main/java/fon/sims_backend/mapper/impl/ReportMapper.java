@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.ReportDTO;
 import fon.sims_backend.entity.impl.Report;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class ReportMapper implements DTOEntityMapper<ReportDTO, Report> {
 
     @Override

@@ -7,11 +7,13 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.RegistrationRequestDTO;
 import fon.sims_backend.entity.impl.RegistrationRequest;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author kotar
  */
+@Component
 public class RegistrationRequestMapper implements DTOEntityMapper<RegistrationRequestDTO, RegistrationRequest> {
 
     @Override
