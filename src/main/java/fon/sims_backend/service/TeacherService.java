@@ -31,7 +31,7 @@ public class TeacherService {
     public List<TeacherDTO> findAll() {
         return teacherRepo.findAll().stream().map(teacherMapper::toDTO).toList();
     }
-    
+
     public TeacherDTO findByID(Long id) throws Exception {
         return teacherMapper.toDTO(teacherRepo.findByID(id));
     }
@@ -41,7 +41,7 @@ public class TeacherService {
         teacherRepo.save(teacher);
         return teacherMapper.toDTO(teacher);
     }
-    
+
     public TeacherDTO update(TeacherDTO teacherDTO) {
         Teacher teacher = teacherMapper.toEntity(teacherDTO);
         teacherRepo.save(teacher);
