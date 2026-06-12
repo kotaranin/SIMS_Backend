@@ -23,17 +23,27 @@ public class StudyLevelRepo implements MyRepository<StudyLevel, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<StudyLevel> findAll() {
         return entityManager.createQuery("SELECT s FROM StudyLevel s", StudyLevel.class).getResultList();
     }
 
     @Override
+    @Transactional
     public StudyLevel findByID(Long id) throws Exception {
         StudyLevel studyLevel = entityManager.find(StudyLevel.class, id);
         if (studyLevel == null) {
             throw new Exception("Nivo studija nije pronađen!");
         }
         return studyLevel;
+    }
+
+    @Transactional
+    public List<StudyLevel> findByStudyLevel(String name) {
+        return entityManager
+                .createQuery("SELECT s FROM StudyLevel s WHERE LOWER(s.name) LIKE LOWER(:name)", StudyLevel.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
     }
 
     @Override
@@ -46,11 +56,4 @@ public class StudyLevelRepo implements MyRepository<StudyLevel, Long> {
         }
     }
 
-    @Override
-    public void deleteByID(Long id) {
-        StudyLevel studyLevel = entityManager.find(StudyLevel.class, id);
-        if (studyLevel != null) {
-            entityManager.remove(studyLevel);
-        }
-    }
 }

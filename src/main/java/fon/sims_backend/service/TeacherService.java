@@ -36,6 +36,10 @@ public class TeacherService {
         return teacherMapper.toDTO(teacherRepo.findByID(id));
     }
 
+    public List<TeacherDTO> findByTeacher(String firstName, String lastName) {
+        return teacherRepo.findByTeacher(firstName, lastName).stream().map(teacherMapper::toDTO).toList();
+    }
+
     public TeacherDTO create(TeacherDTO teacherDTO) {
         Teacher teacher = teacherMapper.toEntity(teacherDTO);
         teacherRepo.save(teacher);

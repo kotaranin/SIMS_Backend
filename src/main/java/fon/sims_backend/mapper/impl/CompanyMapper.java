@@ -7,6 +7,7 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.CompanyDTO;
 import fon.sims_backend.entity.impl.Company;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,13 +17,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyMapper implements DTOEntityMapper<CompanyDTO, Company> {
 
+    private final CityMapper cityMapper;
+
+    @Autowired
+    public CompanyMapper(CityMapper cityMapper) {
+        this.cityMapper = cityMapper;
+    }
+
     @Override
     public Company toEntity(CompanyDTO t) {
         return new Company(
                 t.getIdCompany(),
                 t.getName(),
                 t.getAddress(),
-                new CityMapper().toEntity(t.getCity()));
+                cityMapper.toEntity(t.getCity()));
     }
 
     @Override
@@ -31,7 +39,7 @@ public class CompanyMapper implements DTOEntityMapper<CompanyDTO, Company> {
                 e.getIdCompany(),
                 e.getName(),
                 e.getAddress(),
-                new CityMapper().toDTO(e.getCity()));
+                cityMapper.toDTO(e.getCity()));
     }
 
 }

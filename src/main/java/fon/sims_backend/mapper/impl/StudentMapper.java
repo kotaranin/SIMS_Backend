@@ -7,6 +7,7 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.StudentDTO;
 import fon.sims_backend.entity.impl.Student;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class StudentMapper implements DTOEntityMapper<StudentDTO, Student> {
+
+    private final CityMapper cityMapper;
+    private final StudyProgramMapper studyProgramMapper;
+    private final ModuleMapper moduleMapper;
+    
+    @Autowired
+    public StudentMapper(CityMapper cityMapper, StudyProgramMapper studyProgramMapper, ModuleMapper moduleMapper) {
+        this.cityMapper = cityMapper;
+        this.studyProgramMapper = studyProgramMapper;
+        this.moduleMapper = moduleMapper;
+    }
 
     @Override
     public Student toEntity(StudentDTO t) {
@@ -25,9 +37,9 @@ public class StudentMapper implements DTOEntityMapper<StudentDTO, Student> {
                 t.getLastName(),
                 t.getDateOfBirth(),
                 t.getYearOfStudy(),
-                new CityMapper().toEntity(t.getCity()),
-                new StudyProgramMapper().toEntity(t.getStudyProgram()),
-                new ModuleMapper().toEntity(t.getModule()));
+                cityMapper.toEntity(t.getCity()),
+                studyProgramMapper.toEntity(t.getStudyProgram()),
+                t.getModule() != null ? moduleMapper.toEntity(t.getModule()) : null);
     }
 
     @Override
@@ -39,9 +51,9 @@ public class StudentMapper implements DTOEntityMapper<StudentDTO, Student> {
                 e.getLastName(),
                 e.getDateOfBirth(),
                 e.getYearOfStudy(),
-                new CityMapper().toDTO(e.getCity()),
-                new StudyProgramMapper().toDTO(e.getStudyProgram()),
-                new ModuleMapper().toDTO(e.getModule()));
+                cityMapper.toDTO(e.getCity()),
+                studyProgramMapper.toDTO(e.getStudyProgram()),
+                e.getModule() != null ? moduleMapper.toDTO(e.getModule()) : null);
     }
 
 }

@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -62,7 +64,7 @@ public class ExamPeriodController {
     @Operation(summary = "Unosi nov ispitni rok.")
     @ApiResponse(responseCode = "201", content = {
         @Content(schema = @Schema(implementation = ExamPeriod.class), mediaType = "application/json")})
-    public ResponseEntity<ExamPeriodDTO> addExamPeriod(@Valid @RequestBody @NotNull ExamPeriodDTO examPeriodDTO) {
+    public ResponseEntity<ExamPeriodDTO> add(@Valid @RequestBody @NotNull ExamPeriodDTO examPeriodDTO) {
         ExamPeriodDTO saved = examPeriodService.create(examPeriodDTO);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
@@ -71,10 +73,20 @@ public class ExamPeriodController {
     @Operation(summary = "Ažurira ispitni rok.")
     @ApiResponse(responseCode = "200", content = {
         @Content(schema = @Schema(implementation = ExamPeriod.class), mediaType = "application/json")})
-    public ResponseEntity<ExamPeriodDTO> updateExamPeriod(@PathVariable Long id, @Valid @RequestBody ExamPeriodDTO examPeriodDTO) {
+    public ResponseEntity<ExamPeriodDTO> update(@PathVariable Long id, @Valid @RequestBody ExamPeriodDTO examPeriodDTO) {
         examPeriodDTO.setIdExamPeriod(id);
         ExamPeriodDTO updated = examPeriodService.update(examPeriodDTO);
         return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Pretražuje ispitne rokove po nazivu, datumu početka i datumu kraja.")
+    public ResponseEntity<List<ExamPeriodDTO>> search(
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+        return new ResponseEntity<>(
+                examPeriodService.findByExamPeriod(name, startDate, endDate), HttpStatus.OK);
     }
 
 }

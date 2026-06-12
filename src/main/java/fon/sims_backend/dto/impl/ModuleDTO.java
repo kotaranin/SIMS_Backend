@@ -19,7 +19,6 @@ public class ModuleDTO implements DTO {
     @NotNull(message = "Naziv je obavezno polje!")
     @NotEmpty(message = "Naziv je obavezno polje!")
     private String name;
-    @NotNull(message = "Studijski program je obavezno polje!")
     @Valid
     private StudyProgramDTO studyProgram;
 

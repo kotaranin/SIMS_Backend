@@ -23,11 +23,13 @@ public class CompanyRepo implements MyRepository<Company, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<Company> findAll() {
         return entityManager.createQuery("SELECT c FROM Company c", Company.class).getResultList();
     }
 
     @Override
+    @Transactional
     public Company findByID(Long id) throws Exception {
         Company company = entityManager.find(Company.class, id);
         if (company == null) {
@@ -46,11 +48,28 @@ public class CompanyRepo implements MyRepository<Company, Long> {
         }
     }
 
-    @Override
-    public void deleteByID(Long id) {
-        Company company = entityManager.find(Company.class, id);
-        if (company != null) {
-            entityManager.remove(company);
+    @Transactional
+    public List<Company> findByCompany(String name, String address, Long idCity) {
+        String query = "SELECT c FROM Company c INNER JOIN FETCH c.city WHERE 1=1 ";
+        if (name != null) {
+            query += "AND LOWER(c.name) LIKE LOWER(:name) ";
         }
+        if (address != null) {
+            query += "AND LOWER(c.address) LIKE LOWER(:address) ";
+        }
+        if (idCity != null) {
+            query += "AND c.city.idCity = :idCity ";
+        }
+        var q = entityManager.createQuery(query);
+        if (name != null) {
+            q.setParameter("name", "%" + name + "%");
+        }
+        if (address != null) {
+            q.setParameter("address", "%" + address + "%");
+        }
+        if (idCity != null) {
+            q.setParameter("idCity", idCity);
+        }
+        return q.getResultList();
     }
 }

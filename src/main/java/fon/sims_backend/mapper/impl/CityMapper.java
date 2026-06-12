@@ -5,8 +5,11 @@
 package fon.sims_backend.mapper.impl;
 
 import fon.sims_backend.dto.impl.CityDTO;
+import fon.sims_backend.dto.impl.CountryDTO;
 import fon.sims_backend.entity.impl.City;
+import fon.sims_backend.entity.impl.Country;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,20 +19,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class CityMapper implements DTOEntityMapper<CityDTO, City> {
 
+    private final CountryMapper countryMapper;
+
+    @Autowired
+    public CityMapper(CountryMapper countryMapper) {
+        this.countryMapper = countryMapper;
+    }
+
     @Override
     public City toEntity(CityDTO t) {
-        return new City(
-                t.getIdCity(),
-                t.getName(),
-                new CountryMapper().toEntity(t.getCountry()));
+        Country country = (t.getCountry() != null)
+                ? countryMapper.toEntity(t.getCountry())
+                : null;
+        return new City(t.getIdCity(), t.getName(), country);
     }
 
     @Override
     public CityDTO toDTO(City e) {
-        return new CityDTO(
-                e.getIdCity(),
-                e.getName(),
-                new CountryMapper().toDTO(e.getCountry()));
+        CountryDTO countryDTO = (e.getCountry() != null)
+                ? countryMapper.toDTO(e.getCountry())
+                : null;
+        return new CityDTO(e.getIdCity(), e.getName(), countryDTO);
     }
 
 }

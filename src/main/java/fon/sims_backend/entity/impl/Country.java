@@ -5,6 +5,7 @@
 package fon.sims_backend.entity.impl;
 
 import fon.sims_backend.entity.MyEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Country implements MyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCountry;
     private String name;
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<City> cities;
 
     public Country() {

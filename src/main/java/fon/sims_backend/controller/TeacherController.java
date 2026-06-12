@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -62,7 +63,7 @@ public class TeacherController {
     @Operation(summary = "Unosi novog nastavnika.")
     @ApiResponse(responseCode = "201", content = {
         @Content(schema = @Schema(implementation = Teacher.class), mediaType = "application/json")})
-    public ResponseEntity<TeacherDTO> addTeacher(@Valid @RequestBody @NotNull TeacherDTO teacherDTO) {
+    public ResponseEntity<TeacherDTO> add(@Valid @RequestBody @NotNull TeacherDTO teacherDTO) {
         TeacherDTO saved = teacherService.create(teacherDTO);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
@@ -71,10 +72,19 @@ public class TeacherController {
     @Operation(summary = "Ažurira nastavnika.")
     @ApiResponse(responseCode = "200", content = {
         @Content(schema = @Schema(implementation = Teacher.class), mediaType = "application/json")})
-    public ResponseEntity<TeacherDTO> updateTeacher(@PathVariable Long id, @Valid @RequestBody TeacherDTO teacherDTO) {
+    public ResponseEntity<TeacherDTO> update(@PathVariable Long id, @Valid @RequestBody TeacherDTO teacherDTO) {
         teacherDTO.setIdTeacher(id);
         TeacherDTO updated = teacherService.update(teacherDTO);
         return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Pretražuje nastavnike po imenu i prezimenu.")
+    public ResponseEntity<List<TeacherDTO>> search(
+            @RequestParam(required = false, defaultValue = "") String firstName,
+            @RequestParam(required = false, defaultValue = "") String lastName) {
+        return new ResponseEntity<>(
+                teacherService.findByTeacher(firstName, lastName), HttpStatus.OK);
     }
 
 }

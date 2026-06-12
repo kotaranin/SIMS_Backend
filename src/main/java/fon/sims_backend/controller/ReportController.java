@@ -62,7 +62,7 @@ public class ReportController {
     @Operation(summary = "Unosi nov dnevnik prakse.")
     @ApiResponse(responseCode = "201", content = {
         @Content(schema = @Schema(implementation = Report.class), mediaType = "application/json")})
-    public ResponseEntity<ReportDTO> addReport(@Valid @RequestBody @NotNull ReportDTO reportDTO) {
+    public ResponseEntity<ReportDTO> add(@Valid @RequestBody @NotNull ReportDTO reportDTO) {
         ReportDTO saved = reportService.create(reportDTO);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
@@ -71,7 +71,7 @@ public class ReportController {
     @Operation(summary = "Ažurira dnevnik prakse.")
     @ApiResponse(responseCode = "200", content = {
         @Content(schema = @Schema(implementation = Report.class), mediaType = "application/json")})
-    public ResponseEntity<ReportDTO> updateReport(@PathVariable Long id, @Valid @RequestBody ReportDTO reportDTO) {
+    public ResponseEntity<ReportDTO> update(@PathVariable Long id, @Valid @RequestBody ReportDTO reportDTO) {
         reportDTO.setIdReport(id);
         ReportDTO updated = reportService.update(reportDTO);
         return new ResponseEntity<>(updated, HttpStatus.OK);

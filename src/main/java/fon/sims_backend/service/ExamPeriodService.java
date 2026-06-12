@@ -8,6 +8,7 @@ import fon.sims_backend.dto.impl.ExamPeriodDTO;
 import fon.sims_backend.entity.impl.ExamPeriod;
 import fon.sims_backend.mapper.impl.ExamPeriodMapper;
 import fon.sims_backend.repository.impl.ExamPeriodRepo;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,17 @@ public class ExamPeriodService {
         this.examPeriodMapper = examPeriodMapper;
         this.examPeriodRepo = examPeriodRepo;
     }
-    
+
     public List<ExamPeriodDTO> findAll() {
         return examPeriodRepo.findAll().stream().map(examPeriodMapper::toDTO).toList();
     }
 
     public ExamPeriodDTO findByID(Long id) throws Exception {
         return examPeriodMapper.toDTO(examPeriodRepo.findByID(id));
+    }
+
+    public List<ExamPeriodDTO> findByExamPeriod(String name, LocalDate startDate, LocalDate endDate) {
+        return examPeriodRepo.findByExamPeriod(name, startDate, endDate).stream().map(examPeriodMapper::toDTO).toList();
     }
 
     public ExamPeriodDTO create(ExamPeriodDTO teacherDTO) {

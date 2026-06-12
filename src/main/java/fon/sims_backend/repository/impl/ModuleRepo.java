@@ -23,17 +23,31 @@ public class ModuleRepo implements MyRepository<Module, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<Module> findAll() {
         return entityManager.createQuery("SELECT m FROM Module m", Module.class).getResultList();
     }
 
     @Override
+    @Transactional
     public Module findByID(Long id) throws Exception {
         Module module = entityManager.find(Module.class, id);
         if (module == null) {
             throw new Exception("Modul nije pronađen!");
         }
         return module;
+    }
+
+    @Transactional
+    public List<Module> findByStudyProgram(Long idStudyProgram) {
+        return entityManager
+                .createQuery(
+                        "SELECT m "
+                        + "FROM Module m "
+                        + "JOIN FETCH m.studyProgram "
+                        + "WHERE m.studyProgram.idStudyProgram = :idStudyProgram ", Module.class)
+                .setParameter("idStudyProgram", idStudyProgram)
+                .getResultList();
     }
 
     @Override
@@ -46,11 +60,4 @@ public class ModuleRepo implements MyRepository<Module, Long> {
         }
     }
 
-    @Override
-    public void deleteByID(Long id) {
-        Module module = entityManager.find(Module.class, id);
-        if (module != null) {
-            entityManager.remove(module);
-        }
-    }
 }

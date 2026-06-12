@@ -21,20 +21,25 @@ public class CountryMapper implements DTOEntityMapper<CountryDTO, Country> {
 
     @Override
     public Country toEntity(CountryDTO t) {
-        CityMapper cityMapper = new CityMapper();
-        return new Country(
-                t.getIdCountry(),
-                t.getName(),
-                t.getCities().stream().map(cityDTO -> (City) cityMapper.toEntity(cityDTO)).toList());
+        Country country = new Country(t.getIdCountry(), t.getName(), null);
+        if (t.getCities() != null) {
+            List<City> cities = t.getCities().stream().map(cityDTO -> {
+                City city = new City(cityDTO.getIdCity(), cityDTO.getName(), country);
+                return city;
+            }).toList();
+            country.setCities(cities);
+        }
+        return country;
     }
 
     @Override
     public CountryDTO toDTO(Country e) {
-        CityMapper cityMapper = new CityMapper();
-        return new CountryDTO(
-                e.getIdCountry(),
-                e.getName(),
-                e.getCities().stream().map(city -> (CityDTO) cityMapper.toDTO(city)).toList());
+        List<CityDTO> cityDTOs = (e.getCities() != null)
+            ? e.getCities().stream().map(city ->
+                new CityDTO(city.getIdCity(), city.getName(), null)
+              ).toList()
+            : List.of();
+        return new CountryDTO(e.getIdCountry(), e.getName(), cityDTOs);
     }
 
 }

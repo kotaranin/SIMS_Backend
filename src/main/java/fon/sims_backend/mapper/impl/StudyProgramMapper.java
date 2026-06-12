@@ -5,10 +5,15 @@
 package fon.sims_backend.mapper.impl;
 
 import fon.sims_backend.dto.impl.ModuleDTO;
+import fon.sims_backend.dto.impl.StudyLevelDTO;
 import fon.sims_backend.dto.impl.StudyProgramDTO;
+import fon.sims_backend.entity.impl.StudyLevel;
 import fon.sims_backend.entity.impl.StudyProgram;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import fon.sims_backend.entity.impl.Module;
 
 /**
  *
@@ -17,24 +22,38 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudyProgramMapper implements DTOEntityMapper<StudyProgramDTO, StudyProgram> {
 
+    private final ModuleMapper moduleMapper;
+
+    @Autowired
+    public StudyProgramMapper(ModuleMapper moduleMapper) {
+        this.moduleMapper = moduleMapper;
+    }
+
     @Override
     public StudyProgram toEntity(StudyProgramDTO t) {
-        ModuleMapper moduleMapper = new ModuleMapper();
-        return new StudyProgram(
-                t.getIdStudyProgram(),
-                t.getName(),
-                new StudyLevelMapper().toEntity(t.getStudyLevel()),
-                t.getModules().stream().map(moduleDTO -> (fon.sims_backend.entity.impl.Module) moduleMapper.toEntity(moduleDTO)).toList());
+        StudyLevel sl = null;
+        if (t.getStudyLevel() != null) {
+            sl = new StudyLevel();
+            sl.setIdStudyLevel(t.getStudyLevel().getIdStudyLevel());
+            sl.setName(t.getStudyLevel().getName());
+        }
+        List<Module> modules = (t.getModules() != null)
+                ? t.getModules().stream().map(moduleMapper::toEntity).toList()
+                : List.of();
+        return new StudyProgram(t.getIdStudyProgram(), t.getName(), sl, modules);
     }
 
     @Override
     public StudyProgramDTO toDTO(StudyProgram e) {
-        ModuleMapper moduleMapper = new ModuleMapper();
-        return new StudyProgramDTO(
-                e.getIdStudyProgram(),
-                e.getName(),
-                new StudyLevelMapper().toDTO(e.getStudyLevel()),
-                e.getModules().stream().map(module -> (ModuleDTO) moduleMapper.toDTO(module)).toList());
+        StudyLevelDTO slDTO = new StudyLevelDTO(
+                e.getStudyLevel().getIdStudyLevel(),
+                e.getStudyLevel().getName(),
+                null
+        );
+        List<ModuleDTO> modules = (e.getModules() != null)
+                ? e.getModules().stream().map(moduleMapper::toDTO).toList()
+                : List.of();
+        return new StudyProgramDTO(e.getIdStudyProgram(), e.getName(), slDTO, modules);
     }
 
 }

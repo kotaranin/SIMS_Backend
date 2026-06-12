@@ -18,5 +18,4 @@ public interface MyRepository<E, ID> {
 
     void save(E entity);
 
-    void deleteByID(ID id);
 }

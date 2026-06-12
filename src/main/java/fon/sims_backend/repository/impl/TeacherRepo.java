@@ -23,11 +23,13 @@ public class TeacherRepo implements MyRepository<Teacher, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<Teacher> findAll() {
         return entityManager.createQuery("SELECT t FROM Teacher t", Teacher.class).getResultList();
     }
 
     @Override
+    @Transactional
     public Teacher findByID(Long id) throws Exception {
         Teacher teacher = entityManager.find(Teacher.class, id);
         if (teacher == null) {
@@ -46,12 +48,16 @@ public class TeacherRepo implements MyRepository<Teacher, Long> {
         }
     }
 
-    @Override
-    public void deleteByID(Long id) {
-        Teacher teacher = entityManager.find(Teacher.class, id);
-        if (teacher != null) {
-            entityManager.remove(teacher);
-        }
+    @Transactional
+    public List<Teacher> findByTeacher(String firstName, String lastName) {
+        return entityManager.createQuery(
+                "SELECT t "
+                + "FROM Teacher t WHERE "
+                + "LOWER(t.firstName) LIKE LOWER(:firstName) AND "
+                + "LOWER(t.lastName) LIKE LOWER(:lastName)", Teacher.class)
+                .setParameter("firstName", "%" + firstName + "%")
+                .setParameter("lastName", "%" + lastName + "%")
+                .getResultList();
     }
 
 }

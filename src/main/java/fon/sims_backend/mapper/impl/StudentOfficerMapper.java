@@ -7,6 +7,7 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.StudentOfficerDTO;
 import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class StudentOfficerMapper implements DTOEntityMapper<StudentOfficerDTO, StudentOfficer> {
+
+    private final StudyLevelMapper studyLevelMapper;
+
+    @Autowired
+    public StudentOfficerMapper(StudyLevelMapper studyLevelMapper) {
+        this.studyLevelMapper = studyLevelMapper;
+    }
 
     @Override
     public StudentOfficer toEntity(StudentOfficerDTO t) {
@@ -29,7 +37,7 @@ public class StudentOfficerMapper implements DTOEntityMapper<StudentOfficerDTO, 
                 t.getAnswerSalt(),
                 t.getHashedAnswer(),
                 t.getAdmin(),
-                new StudyLevelMapper().toEntity(t.getStudyLevel()));
+                t.getStudyLevel() != null ? studyLevelMapper.toEntity(t.getStudyLevel()) : null);
     }
 
     @Override
@@ -45,9 +53,7 @@ public class StudentOfficerMapper implements DTOEntityMapper<StudentOfficerDTO, 
                 e.getAnswerSalt(),
                 e.getHashedAnswer(),
                 e.getAdmin(),
-                new StudyLevelMapper().toDTO(e.getStudyLevel()));
+                studyLevelMapper.toDTO(e.getStudyLevel()));
     }
-
-    
 
 }

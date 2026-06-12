@@ -20,7 +20,6 @@ public class StudyProgramDTO implements DTO {
     @NotNull(message = "Naziv je obavezno polje!")
     @NotEmpty(message = "Naziv je obavezno polje!")
     private String name;
-    @NotNull(message = "Nivo studija je obavezno polje!")
     @Valid
     private StudyLevelDTO studyLevel;
     @Valid

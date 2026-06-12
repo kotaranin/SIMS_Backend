@@ -23,11 +23,13 @@ public class StudentOfficerRepo implements MyRepository<StudentOfficer, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<StudentOfficer> findAll() {
         return entityManager.createQuery("SELECT s FROM StudentOfficer s", StudentOfficer.class).getResultList();
     }
 
     @Override
+    @Transactional
     public StudentOfficer findByID(Long id) throws Exception {
         StudentOfficer studentOfficer = entityManager.find(StudentOfficer.class, id);
         if (studentOfficer == null) {
@@ -46,11 +48,4 @@ public class StudentOfficerRepo implements MyRepository<StudentOfficer, Long> {
         }
     }
 
-    @Override
-    public void deleteByID(Long id) {
-        StudentOfficer studentOfficer = entityManager.find(StudentOfficer.class, id);
-        if (studentOfficer != null) {
-            entityManager.remove(studentOfficer);
-        }
-    }
 }

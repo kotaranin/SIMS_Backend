@@ -5,7 +5,9 @@
 package fon.sims_backend.mapper.impl;
 
 import fon.sims_backend.dto.impl.ModuleDTO;
+import fon.sims_backend.dto.impl.StudyProgramDTO;
 import fon.sims_backend.entity.impl.Module;
+import fon.sims_backend.entity.impl.StudyProgram;
 import fon.sims_backend.mapper.DTOEntityMapper;
 import org.springframework.stereotype.Component;
 
@@ -18,18 +20,22 @@ public class ModuleMapper implements DTOEntityMapper<ModuleDTO, fon.sims_backend
 
     @Override
     public Module toEntity(ModuleDTO t) {
-        return new Module(
-                t.getIdModule(),
-                t.getName(),
-                new StudyProgramMapper().toEntity(t.getStudyProgram()));
+        StudyProgram sp = null;
+        if (t.getStudyProgram() != null) {
+            sp = new StudyProgram();
+            sp.setIdStudyProgram(t.getStudyProgram().getIdStudyProgram());
+            sp.setName(t.getStudyProgram().getName());
+        }
+        return new Module(t.getIdModule(), t.getName(), sp);
     }
 
     @Override
     public ModuleDTO toDTO(Module e) {
-        return new ModuleDTO(
-                e.getIdModule(),
-                e.getName(),
-                new StudyProgramMapper().toDTO(e.getStudyProgram()));
+        StudyProgramDTO spDTO = new StudyProgramDTO(
+                e.getStudyProgram().getIdStudyProgram(),
+                e.getStudyProgram().getName(),
+                null, null);
+        return new ModuleDTO(e.getIdModule(), e.getName(), spDTO);
     }
 
 }

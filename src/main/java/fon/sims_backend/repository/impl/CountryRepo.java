@@ -17,16 +17,19 @@ import org.springframework.stereotype.Repository;
  * @author kotar
  */
 @Repository
-public class CountryRepo implements MyRepository<Country, Long>{
+public class CountryRepo implements MyRepository<Country, Long> {
+
     @PersistenceContext
     private EntityManager entityManager;
-
+    
     @Override
+    @Transactional
     public List<Country> findAll() {
         return entityManager.createQuery("SELECT c FROM Country c", Country.class).getResultList();
     }
-
+    
     @Override
+    @Transactional
     public Country findByID(Long id) throws Exception {
         Country country = entityManager.find(Country.class, id);
         if (country == null) {
@@ -34,7 +37,15 @@ public class CountryRepo implements MyRepository<Country, Long>{
         }
         return country;
     }
-
+    
+    @Transactional
+    public List<Country> findByCountry(String name) {
+        return entityManager
+                .createQuery("SELECT c FROM Country c WHERE LOWER(c.name) LIKE LOWER(:name)", Country.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+    
     @Override
     @Transactional
     public void save(Country entity) {
@@ -44,12 +55,5 @@ public class CountryRepo implements MyRepository<Country, Long>{
             entityManager.merge(entity);
         }
     }
-
-    @Override
-    public void deleteByID(Long id) {
-        Country country = entityManager.find(Country.class, id);
-        if (country != null) {
-            entityManager.remove(country);
-        }
-    }
+    
 }

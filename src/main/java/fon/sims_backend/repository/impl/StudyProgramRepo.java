@@ -23,17 +23,31 @@ public class StudyProgramRepo implements MyRepository<StudyProgram, Long> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<StudyProgram> findAll() {
         return entityManager.createQuery("SELECT s FROM StudyProgram s", StudyProgram.class).getResultList();
     }
 
     @Override
+    @Transactional
     public StudyProgram findByID(Long id) throws Exception {
         StudyProgram studyProgram = entityManager.find(StudyProgram.class, id);
         if (studyProgram == null) {
             throw new Exception("Studijski program nije pronađen!");
         }
         return studyProgram;
+    }
+
+    @Transactional
+    public List<StudyProgram> findByStudyLevel(Long idStudyLevel) {
+        return entityManager
+                .createQuery(
+                        "SELECT s "
+                        + "FROM StudyProgram s "
+                        + "JOIN FETCH s.studyLevel "
+                        + "WHERE s.studyLevel.idStudyLevel = :idStudyLevel ", StudyProgram.class)
+                .setParameter("idStudyLevel", idStudyLevel)
+                .getResultList();
     }
 
     @Override
@@ -43,14 +57,6 @@ public class StudyProgramRepo implements MyRepository<StudyProgram, Long> {
             entityManager.persist(entity);
         } else {
             entityManager.merge(entity);
-        }
-    }
-
-    @Override
-    public void deleteByID(Long id) {
-        StudyProgram studyProgram = entityManager.find(StudyProgram.class, id);
-        if (studyProgram != null) {
-            entityManager.remove(studyProgram);
         }
     }
 }

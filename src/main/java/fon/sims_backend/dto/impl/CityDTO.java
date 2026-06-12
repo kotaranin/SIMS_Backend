@@ -6,6 +6,7 @@ package fon.sims_backend.dto.impl;
 
 import fon.sims_backend.dto.DTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -15,8 +16,9 @@ import jakarta.validation.constraints.NotNull;
 public class CityDTO implements DTO {
 
     private Long idCity;
+    @NotEmpty(message = "Naziv je obavezno polje!")
+    @NotNull(message = "Naziv je obavezno polje!")
     private String name;
-    @NotNull(message = "Država je obavezno polje!")
     @Valid
     private CountryDTO country;
 

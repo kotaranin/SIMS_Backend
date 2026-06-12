@@ -5,6 +5,7 @@
 package fon.sims_backend.entity.impl;
 
 import fon.sims_backend.entity.MyEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class StudyProgram implements MyEntity {
     @ManyToOne
     @JoinColumn(name = "id_study_level")
     private StudyLevel studyLevel;
-    @OneToMany(mappedBy = "studyProgram")
+    @OneToMany(mappedBy = "studyProgram", cascade = CascadeType.ALL)
     private List<Module> modules;
 
     public StudyProgram() {

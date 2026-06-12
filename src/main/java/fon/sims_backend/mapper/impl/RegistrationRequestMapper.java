@@ -7,6 +7,7 @@ package fon.sims_backend.mapper.impl;
 import fon.sims_backend.dto.impl.RegistrationRequestDTO;
 import fon.sims_backend.entity.impl.RegistrationRequest;
 import fon.sims_backend.mapper.DTOEntityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +16,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RegistrationRequestMapper implements DTOEntityMapper<RegistrationRequestDTO, RegistrationRequest> {
+
+    private final StudyLevelMapper studyLevelMapper;
+
+    @Autowired
+    public RegistrationRequestMapper(StudyLevelMapper studyLevelMapper) {
+        this.studyLevelMapper = studyLevelMapper;
+    }
 
     @Override
     public RegistrationRequest toEntity(RegistrationRequestDTO t) {
@@ -29,7 +37,7 @@ public class RegistrationRequestMapper implements DTOEntityMapper<RegistrationRe
                 t.getAnswerSalt(),
                 t.getHashedAnswer(),
                 t.getAdmin(),
-                new StudyLevelMapper().toEntity(t.getStudyLevel()));
+                studyLevelMapper.toEntity(t.getStudyLevel()));
     }
 
     @Override
@@ -45,7 +53,7 @@ public class RegistrationRequestMapper implements DTOEntityMapper<RegistrationRe
                 e.getAnswerSalt(),
                 e.getHashedAnswer(),
                 e.getAdmin(),
-                new StudyLevelMapper().toDTO(e.getStudyLevel()));
+                studyLevelMapper.toDTO(e.getStudyLevel()));
     }
 
 }
