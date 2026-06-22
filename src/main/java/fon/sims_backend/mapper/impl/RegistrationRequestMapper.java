@@ -31,13 +31,14 @@ public class RegistrationRequestMapper implements DTOEntityMapper<RegistrationRe
                 t.getFirstName(),
                 t.getLastName(),
                 t.getEmail(),
-                t.getPasswordSalt(),
-                t.getHashedPassword(),
+                t.getPassword(),
+                null,
                 t.getQuestion(),
-                t.getAnswerSalt(),
-                t.getHashedAnswer(),
+                t.getAnswer(),
+                null,
                 t.getAdmin(),
-                studyLevelMapper.toEntity(t.getStudyLevel()));
+                studyLevelMapper.toEntity(t.getStudyLevel())
+        );
     }
 
     @Override

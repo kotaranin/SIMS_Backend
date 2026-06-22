@@ -8,6 +8,7 @@ import fon.sims_backend.dto.impl.RegistrationRequestDTO;
 import fon.sims_backend.entity.impl.RegistrationRequest;
 import fon.sims_backend.mapper.impl.RegistrationRequestMapper;
 import fon.sims_backend.repository.impl.RegistrationRequestRepo;
+import fon.sims_backend.util.HashUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,19 @@ public class RegistrationRequestService {
     }
 
     public RegistrationRequestDTO create(RegistrationRequestDTO registrationRequestDTO) throws Exception {
-        RegistrationRequest registrationRequest = registrationRequestMapper.toEntity(registrationRequestDTO);
-        registrationRequestRepo.save(registrationRequest);
-        return registrationRequestMapper.toDTO(registrationRequestRepo.findByID(registrationRequest.getIdRegistrationRequest()));
+        RegistrationRequest request = registrationRequestMapper.toEntity(registrationRequestDTO);
+    String rawPassword = request.getPasswordSalt(); 
+    String rawAnswer = request.getAnswerSalt();
+    String passwordSalt = HashUtils.generateSalt();
+    String answerSalt = HashUtils.generateSalt();
+    String hashedPassword = HashUtils.hash(rawPassword, passwordSalt);
+    String hashedAnswer = HashUtils.hash(rawAnswer, answerSalt);
+    request.setPasswordSalt(passwordSalt);
+    request.setHashedPassword(hashedPassword);
+    request.setAnswerSalt(answerSalt);
+    request.setHashedAnswer(hashedAnswer);
+    registrationRequestRepo.save(request);
+    return registrationRequestMapper.toDTO(registrationRequestRepo.findByID(request.getIdRegistrationRequest()));
     }
 
     public RegistrationRequestDTO update(RegistrationRequestDTO registrationRequestDTO) throws Exception {

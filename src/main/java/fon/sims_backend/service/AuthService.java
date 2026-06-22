@@ -11,14 +11,11 @@ import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.mapper.impl.StudentOfficerMapper;
 import fon.sims_backend.repository.impl.StudentOfficerRepo;
 import fon.sims_backend.security.JwtService;
+import fon.sims_backend.util.HashUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
 /**
  *
@@ -49,18 +46,10 @@ public class AuthService {
     }
 
     private boolean verifyPassword(String rawPassword, String databaseHash, String salt) {
-//        try {
-//            String saltedPassword = rawPassword + salt;
-//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//            byte[] hashBytes = digest.digest(saltedPassword.getBytes());
-//            String computedHash = Base64.getEncoder().encodeToString(hashBytes);
-//            return computedHash.equals(databaseHash);
-//        } catch (NoSuchAlgorithmException e) {
-//            return false;
-//        }
-        if (rawPassword == null || databaseHash == null) {
+        if (rawPassword == null || databaseHash == null || salt == null) {
             return false;
         }
-        return rawPassword.equals(databaseHash);
+        String computedHash = HashUtils.hash(rawPassword, salt);
+        return computedHash.equals(databaseHash);
     }
 }

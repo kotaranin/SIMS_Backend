@@ -29,14 +29,14 @@ public class RegistrationRequestDTO implements DTO {
     private String email;
     @NotNull(message = "Lozinka je obavezno polje!")
     @NotEmpty(message = "Lozinka je obavezno polje!")
-    private String passwordSalt;
+    private String password;
     private String hashedPassword;
     @NotNull(message = "Sigurnosno pitanje je obavezno polje!")
     @NotEmpty(message = "Sigurnosno pitanje je obavezno polje!")
     private String question;
     @NotNull(message = "Odgovor na sigurnosno pitanje je obavezno polje!")
     @NotEmpty(message = "Odgovor na sigurnosno pitanje je obavezno polje!")
-    private String answerSalt;
+    private String answer;
     private String hashedAnswer;
     @NotNull(message = "Privilegija je obavezno polje!")
     private Boolean admin;
@@ -52,10 +52,10 @@ public class RegistrationRequestDTO implements DTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.passwordSalt = passwordSalt;
+        this.password = passwordSalt;
         this.hashedPassword = hashedPassword;
         this.question = question;
-        this.answerSalt = answerSalt;
+        this.answer = answerSalt;
         this.hashedAnswer = hashedAnswer;
         this.admin = admin;
         this.studyLevel = studyLevel;
@@ -93,12 +93,12 @@ public class RegistrationRequestDTO implements DTO {
         this.email = email;
     }
 
-    public String getPasswordSalt() {
-        return passwordSalt;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getHashedPassword() {
@@ -117,12 +117,12 @@ public class RegistrationRequestDTO implements DTO {
         this.question = question;
     }
 
-    public String getAnswerSalt() {
-        return answerSalt;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setAnswerSalt(String answerSalt) {
-        this.answerSalt = answerSalt;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public String getHashedAnswer() {
