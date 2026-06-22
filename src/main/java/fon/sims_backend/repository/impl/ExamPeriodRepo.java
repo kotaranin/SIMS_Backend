@@ -53,7 +53,7 @@ public class ExamPeriodRepo implements MyRepository<ExamPeriod, Long> {
     public List<ExamPeriod> findByExamPeriod(String name, LocalDate startDate, LocalDate endDate) {
         String query = "SELECT e FROM ExamPeriod e WHERE 1=1 ";
         if (name != null) {
-            query += "LOWER(e.name) LIKE LOWER(:name) ";
+            query += "AND LOWER(e.name) LIKE LOWER(:name) ";
         }
         if (startDate != null) {
             query += "AND e.startDate = :startDate ";

@@ -50,6 +50,14 @@ public class RegistrationRequestController {
         return new ResponseEntity<>(
                 registrationRequestService.findByRegistrationRequest(firstName, lastName), HttpStatus.OK);
     }
+    
+    @GetMapping
+    @Operation(summary = "Vraća sve zahteve za registraciju.")
+    @ApiResponse(responseCode = "200", content = {
+        @Content(schema = @Schema(implementation = RegistrationRequestDTO.class), mediaType = "application/json")})
+    public ResponseEntity<List<RegistrationRequestDTO>> getAll() {
+        return new ResponseEntity<>(registrationRequestService.findAll(), HttpStatus.OK);
+    }
 
     @PostMapping
     @Operation(summary = "Unosi nov zahtev za registraciju.")

@@ -17,7 +17,6 @@ public class InternshipDTO {
 
     private Long idInternship;
     @NotNull(message = "Datum početka je obavezno polje!")
-    @Valid
     private LocalDate startDate;
     @NotNull(message = "Datum kraja je obavezno polje!")
     private LocalDate endDate;
@@ -26,22 +25,17 @@ public class InternshipDTO {
     @NotNull(message = "Ocena je obavezno polje!")
     private Grade grade;
     @NotNull(message = "Nastavnik je obavezno polje!")
-    @Valid
     private TeacherDTO teacher;
     @NotNull(message = "Ispitni rok je obavezno polje!")
-    @Valid
     private ExamPeriodDTO examPeriod;
     @NotNull(message = "Dokument je obavezno polje!")
     @Valid
     private ReportDTO report;
     @NotNull(message = "Službenik studentske službe je obavezno polje!")
-    @Valid
     private StudentOfficerDTO studentOfficer;
     @NotNull(message = "Kompanija je obavezno polje!")
-    @Valid
     private CompanyDTO company;
     @NotNull(message = "Student je obavezno polje!")
-    @Valid
     private StudentDTO student;
 
     public InternshipDTO() {

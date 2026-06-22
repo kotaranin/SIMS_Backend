@@ -27,17 +27,7 @@ public class StudentOfficerDTO implements DTO {
     @NotEmpty(message = "E-mail je obavezno polje!")
     @Email(message = "E-mail nije ispravnog formata!")
     private String email;
-    @NotNull(message = "Lozinka je obavezno polje!")
-    @NotEmpty(message = "Lozinka je obavezno polje!")
-    private String passwordSalt;
-    private String hashedPassword;
-    @NotNull(message = "Sigurnosno pitanje je obavezno polje!")
-    @NotEmpty(message = "Sigurnosno pitanje je obavezno polje!")
-    private String question;
-    @NotNull(message = "Odgovor na sigurnosno pitanje je obavezno polje!")
-    @NotEmpty(message = "Odgovor na sigurnosno pitanje je obavezno polje!")
-    private String answerSalt;
-    private String hashedAnswer;
+    
     @NotNull(message = "Privilegija je obavezno polje!")
     private Boolean admin;
     @NotNull(message = "Nivo studija je obavezno polje!")
@@ -52,11 +42,6 @@ public class StudentOfficerDTO implements DTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.passwordSalt = passwordSalt;
-        this.hashedPassword = hashedPassword;
-        this.question = question;
-        this.answerSalt = answerSalt;
-        this.hashedAnswer = hashedAnswer;
         this.admin = admin;
         this.studyLevel = studyLevel;
     }
@@ -91,46 +76,6 @@ public class StudentOfficerDTO implements DTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getAnswerSalt() {
-        return answerSalt;
-    }
-
-    public void setAnswerSalt(String answerSalt) {
-        this.answerSalt = answerSalt;
-    }
-
-    public String getHashedAnswer() {
-        return hashedAnswer;
-    }
-
-    public void setHashedAnswer(String hashedAnswer) {
-        this.hashedAnswer = hashedAnswer;
     }
 
     public Boolean getAdmin() {

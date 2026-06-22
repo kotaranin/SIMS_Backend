@@ -7,9 +7,11 @@ package fon.sims_backend.repository.impl;
 import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.repository.MyRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -45,6 +47,18 @@ public class StudentOfficerRepo implements MyRepository<StudentOfficer, Long> {
             entityManager.persist(entity);
         } else {
             entityManager.merge(entity);
+        }
+    }
+
+    public Optional<StudentOfficer> findByEmail(String email) {
+        try {
+            StudentOfficer officer = entityManager.createQuery(
+                "SELECT s FROM StudentOfficer s WHERE s.email = :email", StudentOfficer.class)
+                .setParameter("email", email)
+                .getSingleResult();
+            return Optional.of(officer);
+        } catch (NoResultException e) {
+            return Optional.empty();
         }
     }
 

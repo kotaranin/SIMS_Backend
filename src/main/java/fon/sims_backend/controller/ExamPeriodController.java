@@ -43,6 +43,16 @@ public class ExamPeriodController {
         this.examPeriodService = examPeriodService;
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Pretražuje ispitne rokove po nazivu, datumu početka i datumu kraja.")
+    public ResponseEntity<List<ExamPeriodDTO>> search(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+        return new ResponseEntity<>(
+                examPeriodService.findByExamPeriod(name, startDate, endDate), HttpStatus.OK);
+    }
+
     @GetMapping
     @Operation(summary = "Vraća sve ispitne rokove.")
     @ApiResponse(responseCode = "200", content = {
@@ -79,16 +89,6 @@ public class ExamPeriodController {
         examPeriodDTO.setIdExamPeriod(id);
         ExamPeriodDTO updated = examPeriodService.update(examPeriodDTO);
         return new ResponseEntity<>(updated, HttpStatus.OK);
-    }
-
-    @GetMapping("/search")
-    @Operation(summary = "Pretražuje ispitne rokove po nazivu, datumu početka i datumu kraja.")
-    public ResponseEntity<List<ExamPeriodDTO>> search(
-            @RequestParam(required = false, defaultValue = "") String name,
-            @RequestParam(required = false) LocalDate startDate,
-            @RequestParam(required = false) LocalDate endDate) {
-        return new ResponseEntity<>(
-                examPeriodService.findByExamPeriod(name, startDate, endDate), HttpStatus.OK);
     }
 
 }

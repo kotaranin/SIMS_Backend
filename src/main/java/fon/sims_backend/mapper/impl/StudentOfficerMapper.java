@@ -26,18 +26,15 @@ public class StudentOfficerMapper implements DTOEntityMapper<StudentOfficerDTO, 
 
     @Override
     public StudentOfficer toEntity(StudentOfficerDTO t) {
-        return new StudentOfficer(
-                t.getIdStudentOfficer(),
-                t.getFirstName(),
-                t.getLastName(),
-                t.getEmail(),
-                t.getPasswordSalt(),
-                t.getHashedPassword(),
-                t.getQuestion(),
-                t.getAnswerSalt(),
-                t.getHashedAnswer(),
-                t.getAdmin(),
-                t.getStudyLevel() != null ? studyLevelMapper.toEntity(t.getStudyLevel()) : null);
+        if (t == null) return null;
+        StudentOfficer entity = new StudentOfficer();
+        entity.setIdStudentOfficer(t.getIdStudentOfficer());
+        entity.setFirstName(t.getFirstName());
+        entity.setLastName(t.getLastName());
+        entity.setEmail(t.getEmail());
+        entity.setAdmin(t.getAdmin());
+        entity.setStudyLevel(t.getStudyLevel() != null ? studyLevelMapper.toEntity(t.getStudyLevel()) : null);
+        return entity;
     }
 
     @Override
