@@ -58,6 +58,11 @@ public class RegistrationRequestController {
     public ResponseEntity<List<RegistrationRequestDTO>> getAll() {
         return new ResponseEntity<>(registrationRequestService.findAll(), HttpStatus.OK);
     }
+    
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAll() {
+        return ResponseEntity.ok(registrationRequestService.countAll());
+    }
 
     @PostMapping
     @Operation(summary = "Unosi nov zahtev za registraciju.")

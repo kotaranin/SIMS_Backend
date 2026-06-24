@@ -67,6 +67,11 @@ public class StudentController {
                 studentService.findByStudent(indexNumber, firstName, lastName, dateOfBirth, yearOfStudy, idCity, idStudyProgram, idModule),
                  HttpStatus.OK);
     }
+    
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAll() {
+        return ResponseEntity.ok(studentService.countAll());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentDTO> getByID(

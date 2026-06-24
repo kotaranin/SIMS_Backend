@@ -8,7 +8,9 @@ import fon.sims_backend.dto.impl.StudentOfficerDTO;
 import fon.sims_backend.entity.impl.StudentOfficer;
 import fon.sims_backend.mapper.impl.StudentOfficerMapper;
 import fon.sims_backend.repository.impl.StudentOfficerRepo;
+import fon.sims_backend.util.HashUtils;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +48,29 @@ public class StudentOfficerService {
         StudentOfficer studentOfficer = studentOfficerMapper.toEntity(studentOfficerDTO);
         studentOfficerRepo.save(studentOfficer);
         return studentOfficerMapper.toDTO(studentOfficerRepo.findByID(studentOfficer.getIdStudentOfficer()));
+    }
+
+    public boolean verifySecurityAnswer(String email, String answer) {
+        return studentOfficerRepo.findByEmail(email)
+                .map(officer -> {
+                    String hashedInputAnswer = HashUtils.hash(answer, officer.getAnswerSalt());
+                    return hashedInputAnswer.equals(officer.getHashedAnswer());
+                })
+                .orElse(false);
+    }
+
+    public void updatePassword(String email, String newPassword) {
+        StudentOfficer officer = studentOfficerRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Korisnik sa tim e-mailom ne postoji!"));
+        String newSalt = HashUtils.generateSalt();
+        String newHashedPassword = HashUtils.hash(newPassword, newSalt);
+        officer.setPasswordSalt(newSalt);
+        officer.setHashedPassword(newHashedPassword);
+        studentOfficerRepo.save(officer);
+    }
+
+    public String getSecurityQuestion(String email) {
+        return studentOfficerRepo.findSecurityQuestionByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Korisnik sa tim e-mailom ne postoji!"));
     }
 }

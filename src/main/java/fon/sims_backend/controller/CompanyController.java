@@ -60,6 +60,11 @@ public class CompanyController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CompanyController je naišao na grešku!");
         }
     }
+    
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAll() {
+        return ResponseEntity.ok(companyService.countAll());
+    }
 
     @PostMapping
     @Operation(summary = "Unosi novu kompaniju.")

@@ -50,13 +50,27 @@ public class StudentOfficerRepo implements MyRepository<StudentOfficer, Long> {
         }
     }
 
+    @Transactional
     public Optional<StudentOfficer> findByEmail(String email) {
         try {
             StudentOfficer officer = entityManager.createQuery(
-                "SELECT s FROM StudentOfficer s WHERE s.email = :email", StudentOfficer.class)
-                .setParameter("email", email)
-                .getSingleResult();
+                    "SELECT s FROM StudentOfficer s WHERE s.email = :email", StudentOfficer.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
             return Optional.of(officer);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public Optional<String> findSecurityQuestionByEmail(String email) {
+        try {
+            String question = entityManager.createQuery(
+                    "SELECT s.question FROM StudentOfficer s WHERE s.email = :email", String.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+            return Optional.of(question);
         } catch (NoResultException e) {
             return Optional.empty();
         }

@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/registration-request/**").permitAll()
                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/api/study-level/**").permitAll()
+                .requestMatchers("/api/student-officer/get-question/**").permitAll()
+                .requestMatchers("/api/student-officer/reset-password/**").permitAll()
                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

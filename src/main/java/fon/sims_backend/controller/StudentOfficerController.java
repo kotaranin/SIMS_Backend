@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -75,5 +77,26 @@ public class StudentOfficerController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "StudentOfficerController je naišao na grešku!");
         }
     }
+
+    @PostMapping("/reset-password/verify-question")
+    public ResponseEntity<Boolean> verifySecurityAnswer(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String answer = payload.get("answer");
+        boolean isValid = studentOfficerService.verifySecurityAnswer(email, answer);
+        return ResponseEntity.ok(isValid);
+    }
+
+    @PutMapping("/reset-password/update")
+    public ResponseEntity<Void> updatePassword(@RequestBody Map<String, String> payload) throws Exception {
+        String email = payload.get("email");
+        String newPassword = payload.get("newPassword");
+        studentOfficerService.updatePassword(email, newPassword);
+        return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/get-question")
+public ResponseEntity<String> getSecurityQuestion(@RequestParam String email) {
+    return ResponseEntity.ok(studentOfficerService.getSecurityQuestion(email));
+}
 
 }

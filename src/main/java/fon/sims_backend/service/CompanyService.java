@@ -51,5 +51,9 @@ public class CompanyService {
         companyRepo.save(company);
         return companyMapper.toDTO(companyRepo.findByID(company.getIdCompany()));
     }
+    
+    public Long countAll() {
+        return companyRepo.countAll();
+    }
 
 }

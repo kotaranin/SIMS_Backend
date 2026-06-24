@@ -66,5 +66,9 @@ public class RegistrationRequestService {
     public void deleteById(Long id) {
         registrationRequestRepo.deleteByID(id);
     }
+    
+    public Long countAll() {
+        return registrationRequestRepo.countAll();
+    }
 
 }

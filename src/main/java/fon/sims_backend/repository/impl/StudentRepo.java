@@ -126,4 +126,11 @@ public class StudentRepo implements MyRepository<Student, Long> {
             entityManager.merge(entity);
         }
     }
+
+    @Transactional
+    public Long countAll() {
+        return entityManager.createQuery(
+                "SELECT COUNT(s) FROM Student s", Long.class)
+                .getSingleResult();
+    }
 }

@@ -69,6 +69,11 @@ public class InternshipController {
                 internshipService.findByInternship(startDate, endDate, defenseDate, grade, idTeacher, idExamPeriod, idStudentOfficer, idCompany, idStudent), HttpStatus.OK);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAll() {
+        return ResponseEntity.ok(internshipService.countAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<InternshipDTO> getByID(
             @NotNull(message = "ID ne sme biti null ili prazan!")

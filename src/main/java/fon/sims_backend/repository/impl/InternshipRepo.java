@@ -159,4 +159,11 @@ public class InternshipRepo implements MyRepository<Internship, Long> {
             entityManager.remove(internship);
         }
     }
+
+    @Transactional
+    public Long countAll() {
+        return entityManager.createQuery(
+                "SELECT COUNT(i) FROM Internship i", Long.class)
+                .getSingleResult();
+    }
 }

@@ -72,4 +72,11 @@ public class CompanyRepo implements MyRepository<Company, Long> {
         }
         return q.getResultList();
     }
+
+    @Transactional
+    public Long countAll() {
+        return entityManager.createQuery(
+                "SELECT COUNT(c) FROM Company c", Long.class)
+                .getSingleResult();
+    }
 }

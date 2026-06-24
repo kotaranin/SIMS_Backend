@@ -74,4 +74,11 @@ public class RegistrationRequestRepo implements MyRepository<RegistrationRequest
             entityManager.remove(registrationRequest);
         }
     }
+
+    @Transactional
+    public Long countAll() {
+        return entityManager.createQuery(
+                "SELECT COUNT(r) FROM RegistrationRequest r", Long.class)
+                .getSingleResult();
+    }
 }

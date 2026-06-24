@@ -70,4 +70,8 @@ public class InternshipService {
     public void delete(Long id) {
         internshipRepo.deleteByID(id);
     }
+    
+    public Long countAll() {
+        return internshipRepo.countAll();
+    }
 }

@@ -52,4 +52,8 @@ public class StudentService {
         studentRepo.save(student);
         return studentMapper.toDTO(studentRepo.findByID(student.getIdStudent()));
     }
+    
+    public Long countAll() {
+        return studentRepo.countAll();
+    }
 }
