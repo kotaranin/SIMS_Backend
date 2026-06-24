@@ -28,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.http.HttpMethod;
 
 /**
  *
@@ -49,7 +50,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/registration-request/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/registration-request/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/registration-request/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/student-officer/**").permitAll()
                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/api/study-level/**").permitAll()
                 .requestMatchers("/api/student-officer/get-question/**").permitAll()
                 .requestMatchers("/api/student-officer/reset-password/**").permitAll()
